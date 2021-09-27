@@ -1,4 +1,5 @@
 language: java
-before_script:
-    - sudo chmod +x mvnw
-script: mvn clean verify
+sudo: true
+dist: trusty
+before_install:
+  - chmod +x mvnw
