@@ -2,6 +2,10 @@ package com.dsima.kvdatabase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.junit.jupiter.api.Test;
 
 class MyKeyValueDatabaseTests {
@@ -72,5 +76,13 @@ class MyKeyValueDatabaseTests {
 		database.load();
 		assertEquals(database.get("key1"), "value1");
 		assertEquals(database.get("key2"), "value2");
+	}
+	
+	@Test
+	void testLoadWithoutDump() {
+		MyKeyValueDatabase database = new MyKeyValueDatabase();
+		File dumpFile = new File(MyKeyValueDatabase.DUMP_FILE_NAME);
+		dumpFile.delete();
+		assertFalse(database.load());
 	}
 }

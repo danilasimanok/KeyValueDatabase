@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MyKeyValueDatabase implements KeyValueDatabase {
 	public static final String DUMP_FILE_NAME = "key-value-database-dump";
 	private HashMap<String, String> database;
@@ -84,7 +87,7 @@ public class MyKeyValueDatabase implements KeyValueDatabase {
 	}
 
 	@Override
-	public synchronized void load() {
+	public synchronized boolean load() {
 		try (ObjectInputStream input =
 				new ObjectInputStream(new FileInputStream(MyKeyValueDatabase.DUMP_FILE_NAME)))
 		{
@@ -92,7 +95,10 @@ public class MyKeyValueDatabase implements KeyValueDatabase {
 			this.keysToRemove = (PriorityQueue<StringAndDatePair>) input.readObject();
 			this.defaultTtl = (Integer) input.readObject();
 		}
-		catch (Exception e) {}
+		catch (Exception e) {
+			return false;
+		}
 		this.purge();
+		return true;
 	}
 }
