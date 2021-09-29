@@ -10,5 +10,5 @@ public interface KeyValueDatabase {
 	
 	public void dump();
 	
-	public void load();
+	public boolean load();
 }
